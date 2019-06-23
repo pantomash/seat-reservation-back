@@ -1,1 +1,1 @@
-# seat-reservation-back
+# System rezerwacji stolików (backend)
