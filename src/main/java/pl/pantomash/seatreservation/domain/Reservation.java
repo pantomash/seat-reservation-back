@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @javax.persistence.Table(name = "reservations")
-public class Reservation extends BaseEntity{
+public class Reservation extends BaseEntity {
     @Column(name = "people")
     private Integer people;
 
