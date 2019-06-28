@@ -2,10 +2,12 @@ package pl.pantomash.seatreservation.service.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.stereotype.Service;
 import pl.pantomash.seatreservation.domain.Table;
 import pl.pantomash.seatreservation.service.dto.TableDto;
 
 @Mapper(componentModel = "spring", uses = {RestaurantMapper.class})
+@Service
 public interface TableMapper extends EntityMapper<TableDto, Table>{
 
     @Mapping(source = "restaurant.id", target = "restaurantId")
