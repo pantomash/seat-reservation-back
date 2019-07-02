@@ -41,7 +41,7 @@ public class TableServiceImpl implements TableService {
     }
 
     @Override
-    public TableDto saveUser(TableDto tableDto) {
+    public TableDto saveTable(TableDto tableDto) {
         Table table = tableMapper.toEntity(tableDto);
         tableRepository.save(table);
         return tableMapper.toDto(table);

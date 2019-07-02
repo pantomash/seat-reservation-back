@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 public class RestaurantServiceImpl implements RestaurantService {
 
     private final Logger log = LoggerFactory.getLogger(RestaurantServiceImpl.class);
-    RestaurantRepository restaurantRepository;
-    RestaurantMapper restaurantMapper;
+    private final RestaurantRepository restaurantRepository;
+    private final RestaurantMapper restaurantMapper;
 
     public RestaurantServiceImpl(RestaurantRepository restaurantRepository, RestaurantMapper restaurantMapper) {
         this.restaurantRepository = restaurantRepository;

@@ -31,7 +31,7 @@ public class ReservationResource {
         return ResponseEntity.ok(reservationDtoList);
     }
 
-    @GetMapping(value = "/restaurant/{id}")
+    @GetMapping(value = "/reservation/{id}")
     public ResponseEntity<ReservationDto> getReservation(@PathVariable Long id) {
         log.debug("REST request to get Reservation");
         ReservationDto reservationDto = reservationService.findOne(id);

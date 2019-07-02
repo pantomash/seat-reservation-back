@@ -3,11 +3,9 @@ package pl.pantomash.seatreservation.service.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import pl.pantomash.seatreservation.domain.Reservation;
-import pl.pantomash.seatreservation.domain.Restaurant;
-import pl.pantomash.seatreservation.domain.Table;
 import pl.pantomash.seatreservation.service.dto.ReservationDto;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class, Table.class, Restaurant.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class, TableMapper.class, RestaurantMapper.class})
 public interface ReservationMapper extends EntityMapper<ReservationDto, Reservation> {
 
     @Mapping(source = "user.id", target = "userId")
