@@ -8,7 +8,7 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'pl.pantomash'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '8'
+sourceCompatibility = '1.8'
 
 ext {
     mapstructVersion = "1.3.0.Final"
