@@ -1,4 +1,5 @@
-# System rezerwacji stolików (backend) [![CircleCI](https://circleci.com/gh/pantomash/seat-reservation-back.svg?style=svg)](https://circleci.com/gh/pantomash/seat-reservation-back)
+# System rezerwacji stolików (backend) 
+[![CircleCI](https://circleci.com/gh/pantomash/seat-reservation-back/tree/master.svg?style=svg&circle-token=0274e425c8cda96335d1fa3afc9731c1390335a8)](https://circleci.com/gh/pantomash/seat-reservation-back/tree/master)
 
 This is a SPRING BOOT application for reserving seats in restaurant.
 
