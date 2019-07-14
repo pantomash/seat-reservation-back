@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.pantomash.seatreservation.service.ReservationService;
 import pl.pantomash.seatreservation.service.dto.ReservationDto;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -48,8 +47,7 @@ public class ReservationResource {
             return ResponseEntity.badRequest().header("A new Reservation cannot already have an ID").build();
         }
         ReservationDto result = reservationService.saveReservation(reservationDto);
-        return ResponseEntity.created(new URI("/reservation/" + result.getId()))
-                .body(result);
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping(value = "/reservation")

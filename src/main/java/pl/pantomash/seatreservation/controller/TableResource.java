@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.pantomash.seatreservation.service.TableService;
 import pl.pantomash.seatreservation.service.dto.TableDto;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -48,8 +47,7 @@ public class TableResource {
             return ResponseEntity.badRequest().header("A new Table cannot have an ID").build();
         }
         TableDto result = tableService.saveTable(tableDto);
-        return ResponseEntity.created(new URI("/table/" + result.getId()))
-                .body(result);
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping(value = "/table")

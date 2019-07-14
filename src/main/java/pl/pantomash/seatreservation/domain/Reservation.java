@@ -1,18 +1,20 @@
 package pl.pantomash.seatreservation.domain;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-@Getter
-@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @javax.persistence.Table(name = "reservations")
 public class Reservation {
+
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,10 +23,10 @@ public class Reservation {
     private Integer people;
 
     @Column(name = "fromdate")
-    private Date fromDate;
+    private LocalDate fromDate;
 
     @Column(name = "todate")
-    private Date toDate;
+    private LocalDate toDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -37,4 +39,76 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getPeople() {
+        return people;
+    }
+
+    public void setPeople(Integer people) {
+        this.people = people;
+    }
+
+    public String getFromDate() {
+        if (this.fromDate != null) {
+            return this.fromDate.format(dateTimeFormatter);
+        } else {
+            return null;
+        }
+    }
+
+    public void setFromDate(String fromDate) {
+        if (fromDate != null) {
+            this.fromDate = LocalDate.parse(fromDate, dateTimeFormatter);
+        } else {
+            this.fromDate = null;
+        }
+    }
+
+    public String getToDate() {
+        if (this.toDate != null) {
+            return this.toDate.format(dateTimeFormatter);
+        } else {
+            return null;
+        }
+    }
+
+    public void setToDate(String toDate) {
+        if (toDate != null) {
+            this.toDate = LocalDate.parse(toDate, dateTimeFormatter);
+        } else {
+            this.toDate = null;
+        }
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
 }

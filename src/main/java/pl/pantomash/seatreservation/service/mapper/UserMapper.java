@@ -9,6 +9,8 @@ import pl.pantomash.seatreservation.service.dto.UserDto;
 @Service
 public interface UserMapper extends EntityMapper<UserDto, User> {
 
+    UserDto toDto(User user);
+
     User toEntity(UserDto userDto);
 
     default User fromId(Long id) {

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.pantomash.seatreservation.service.UserService;
 import pl.pantomash.seatreservation.service.dto.UserDto;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -45,12 +44,15 @@ public class UserResource {
     @PostMapping(value = "/user")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) throws URISyntaxException {
         log.debug("REST request to create User");
+        log.info(userDto.toString());
         if (userDto.getId() != null) {
             return ResponseEntity.badRequest().header("A new User cannot have an ID").build();
         }
         UserDto result = userService.saveUser(userDto);
-        return ResponseEntity.created(new URI("/user/" + result.getId()))
-                .body(result);
+        return ResponseEntity.ok(result);
+//        UserDto result = userService.saveUser(userDto);
+//        return ResponseEntity.created(new URI("/user/" + result.getId()))
+//                .body(result);
     }
 
     @PutMapping(value = "/user")
