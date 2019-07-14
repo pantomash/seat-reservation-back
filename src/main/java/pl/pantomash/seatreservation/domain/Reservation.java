@@ -13,8 +13,6 @@ import java.time.format.DateTimeFormatter;
 @javax.persistence.Table(name = "reservations")
 public class Reservation {
 
-    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -58,7 +56,7 @@ public class Reservation {
 
     public String getFromDate() {
         if (this.fromDate != null) {
-            return this.fromDate.format(dateTimeFormatter);
+            return this.fromDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         } else {
             return null;
         }
@@ -66,7 +64,7 @@ public class Reservation {
 
     public void setFromDate(String fromDate) {
         if (fromDate != null) {
-            this.fromDate = LocalDate.parse(fromDate, dateTimeFormatter);
+            this.fromDate = LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         } else {
             this.fromDate = null;
         }
@@ -74,7 +72,7 @@ public class Reservation {
 
     public String getToDate() {
         if (this.toDate != null) {
-            return this.toDate.format(dateTimeFormatter);
+            return this.toDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         } else {
             return null;
         }
@@ -82,7 +80,7 @@ public class Reservation {
 
     public void setToDate(String toDate) {
         if (toDate != null) {
-            this.toDate = LocalDate.parse(toDate, dateTimeFormatter);
+            this.toDate = LocalDate.parse(toDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         } else {
             this.toDate = null;
         }
