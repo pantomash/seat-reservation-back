@@ -39,7 +39,7 @@ jobs:
         key: v1-dependencies-{{ checksum "build.gradle" }}
 
     # run tests!
-    - run: gradle test cobertura:cobertura
+    - run: gradle test
 
     - run:
         name: Send to CodeCov
