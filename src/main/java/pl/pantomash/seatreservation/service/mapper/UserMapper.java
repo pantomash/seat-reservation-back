@@ -1,24 +1,42 @@
 package pl.pantomash.seatreservation.service.mapper;
 
-import org.mapstruct.Mapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.pantomash.seatreservation.domain.User;
+import pl.pantomash.seatreservation.model.User;
 import pl.pantomash.seatreservation.service.dto.UserDto;
+import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {})
 @Service
-public interface UserMapper extends EntityMapper<UserDto, User> {
+public class UserMapper implements EntityMapper<UserDto, User> {
 
-    UserDto toDto(User user);
+    private final PasswordEncoder passwordEncoder;
 
-    User toEntity(UserDto userDto);
+    public UserMapper(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
-    default User fromId(Long id) {
-        if (id == null) {
-            return null;
-        }
-        User user = new User();
-        user.setId(id);
-        return user;
+    @Override
+    public UserDto toDto(User user) { return null; };
+
+    @Override
+    public User toEntity(UserDto userDto) {
+        return new User(
+                userDto.getLogin(),
+                passwordEncoder.encode(userDto.getPassword()),
+                userDto.getFirstName(),
+                userDto.getLastName(),
+                userDto.getPhoneNumber(),
+                userDto.getEmail()
+        );
+    };
+
+    @Override
+    public List<User> toEntity(List<UserDto> dtoList) {
+        return null;
+    }
+
+    @Override
+    public List<UserDto> toDto(List<User> entityList) {
+        return null;
     }
 }

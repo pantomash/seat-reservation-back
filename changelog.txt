@@ -1,0 +1,7 @@
+0.1.0
+    - przebudowanie logiki dla usera
+    - przygotowanie logiki pod autoryzację logowania i rejestrowania użytkownika
+0.0.1
+    - inicjalizacja projektu
+    - przygotowanie głównych klas modelowych, serwisów, kontrolerów, mapperów
+    - przygotowanie testów jednostkowych do stworzonego kodu

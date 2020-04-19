@@ -1,4 +1,4 @@
-package pl.pantomash.seatreservation.domain;
+package pl.pantomash.seatreservation.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

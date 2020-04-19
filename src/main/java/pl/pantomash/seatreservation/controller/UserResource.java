@@ -1,75 +1,54 @@
 package pl.pantomash.seatreservation.controller;
 
-import io.micrometer.core.annotation.Timed;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import pl.pantomash.seatreservation.config.auth.AuthRequest;
+import pl.pantomash.seatreservation.config.auth.jwt.JwtResponse;
+import pl.pantomash.seatreservation.config.auth.jwt.JwtUtils;
+import pl.pantomash.seatreservation.model.User;
 import pl.pantomash.seatreservation.service.UserService;
 import pl.pantomash.seatreservation.service.dto.UserDto;
+import pl.pantomash.seatreservation.service.mapper.UserMapper;
 
-import java.net.URISyntaxException;
-import java.util.List;
+import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api")
 public class UserResource {
     private Logger log = LoggerFactory.getLogger(UserResource.class);
-    private UserService userService;
+    private AuthenticationManager authManager;
+    private final UserService userService;
+    private final UserMapper mapper;
+    private final JwtUtils jwtUtils;
 
-    public UserResource(UserService userService) {
-        this.userService = userService;
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody AuthRequest request) {
+        authenticate(request.getLogin(), request.getPassword());
+
+        User user = userService.findByLogin(request.getLogin());
+        String jwt = jwtUtils.generateToken(user);
+
+        return ResponseEntity.ok(new JwtResponse(jwt));
     }
 
-    @GetMapping(value = "/user")
-    public ResponseEntity<List<UserDto>> getAllUsers() {
-        log.debug("REST request to get all Users");
-        List<UserDto> userDtoList = userService.findAll();
-        if (userDtoList.isEmpty()) {
-            return ResponseEntity.noContent().build();
+    @PostMapping("register")
+    public void createUser(@Valid @RequestBody UserDto userDto) {
+        userService.registerUser(mapper.toEntity(userDto));
+    }
+
+    private void authenticate(String login, String password) {
+        try {
+            authManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
+        } catch (BadCredentialsException e) {
+            throw new EntityNotFoundException("Wrong username or password!");
         }
-        return ResponseEntity.ok(userDtoList);
-    }
-
-    @GetMapping(value = "/user/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
-        log.debug("REST request to get User");
-        UserDto userDto = userService.findOne(id);
-        if (userDto == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(userDto);
-    }
-
-    @PostMapping(value = "/user")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) throws URISyntaxException {
-        log.debug("REST request to create User");
-        log.info(userDto.toString());
-        if (userDto.getId() != null) {
-            return ResponseEntity.badRequest().header("A new User cannot have an ID").build();
-        }
-        UserDto result = userService.saveUser(userDto);
-        return ResponseEntity.ok(result);
-//        UserDto result = userService.saveUser(userDto);
-//        return ResponseEntity.created(new URI("/user/" + result.getId()))
-//                .body(result);
-    }
-
-    @PutMapping(value = "/user")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) throws URISyntaxException {
-        log.debug("REST request to update User");
-        if (userDto.getId() == null) {
-            return ResponseEntity.badRequest().header("An existing User must have an ID").build();
-        }
-        UserDto result = userService.saveUser(userDto);
-        return ResponseEntity.ok(result);
-    }
-
-    @DeleteMapping(value = "/user/{id}")
-    @Timed
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        log.debug("REST request to delete User : {}", id);
-        userService.deleteById(id);
-        return ResponseEntity.noContent().build();
     }
 }
